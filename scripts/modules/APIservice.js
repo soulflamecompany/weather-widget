@@ -4,7 +4,7 @@ const API_KEY = "ee62dfcee977b631a29c418a0bfacccb";
 export const fetchWeather = async (city) => {
   try {
     const response = await fetch(
-      `${API_URL}weather?units-metric&q=${city}&appid=${API_KEY}&lang=ru`
+      `${API_URL}weather?&q=${city}&appid=${API_KEY}&lang=ru`
     );
     if (!response.ok) {
       throw new Error("Ошибка запроса");
@@ -29,6 +29,22 @@ export const fetchForecast = async (city) => {
     const data = await response.json();
     return { success: true, data };
   } catch (error) {
+    return { success: false, error };
+  }
+};
+
+export const getCity = async () => {
+  const url = "https://ipapi.co/city/";
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Ошибка получения города");
+    }
+    const city = await response.text();
+    return { success: true, city };
+  } catch (error) {
+    console.error(error);
     return { success: false, error };
   }
 };
